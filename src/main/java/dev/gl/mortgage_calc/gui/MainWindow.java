@@ -42,7 +42,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
         decimalFormat.setGroupingUsed(true);
+        decimalFormat.setMaximumIntegerDigits(9);
+        decimalFormat.setMaximumFractionDigits(2);
 
+        homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
@@ -58,10 +62,10 @@ public class MainWindow extends javax.swing.JFrame {
         mainInputPanel = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        homeValueTextField = new javax.swing.JTextField();
+        homeValueTextField = new javax.swing.JFormattedTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        downPaymentTextField = new javax.swing.JTextField();
+        downPaymentTextField = new javax.swing.JFormattedTextField();
         jPanel10 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         interestRateTextField = new javax.swing.JTextField();
@@ -114,9 +118,10 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Home Value: ");
         jPanel8.add(jLabel1);
 
-        homeValueTextField.setColumns(9);
-        homeValueTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        homeValueTextField.setColumns(12);
         homeValueTextField.setText("0");
+        homeValueTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        homeValueTextField.setValue(0);
         jPanel8.add(homeValueTextField);
 
         mainInputPanel.add(jPanel8);
@@ -127,9 +132,10 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2.setText("Down Payment: ");
         jPanel9.add(jLabel2);
 
-        downPaymentTextField.setColumns(9);
-        downPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        downPaymentTextField.setColumns(12);
         downPaymentTextField.setText("0");
+        downPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        downPaymentTextField.setValue(0);
         jPanel9.add(downPaymentTextField);
 
         mainInputPanel.add(jPanel9);
@@ -140,7 +146,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3.setText("Interest Rate: ");
         jPanel10.add(jLabel3);
 
-        interestRateTextField.setColumns(3);
+        interestRateTextField.setColumns(5);
         interestRateTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         interestRateTextField.setText("0");
         jPanel10.add(interestRateTextField);
@@ -300,10 +306,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton calculateButton;
     private javax.swing.JPanel chartsPanel;
-    private javax.swing.JTextField downPaymentTextField;
+    private javax.swing.JFormattedTextField downPaymentTextField;
     private javax.swing.JPanel earlyRepaymentsPanel;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JTextField homeValueTextField;
+    private javax.swing.JFormattedTextField homeValueTextField;
     private javax.swing.JTextField interestRateTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -367,8 +373,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public boolean isInputValid() {
-        Integer downPayment = Integer.parseInt(downPaymentTextField.getText());
-        Integer homeValue = Integer.parseInt(homeValueTextField.getText());
+        Double downPayment = Double.parseDouble(downPaymentTextField.getText().replaceAll(" ", ""));
+        Double homeValue = Double.parseDouble(homeValueTextField.getText().replaceAll(" ", ""));
         if (downPayment.compareTo(homeValue) >= 0) {
             JOptionPane.showMessageDialog(this,
                     "Down Payment should be less than Home Value",
@@ -383,8 +389,8 @@ public class MainWindow extends javax.swing.JFrame {
     public Calculator createCalculator() {
 
         try {
-            BigDecimal homeValue = new BigDecimal(homeValueTextField.getText());
-            BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText());
+            BigDecimal homeValue = new BigDecimal(homeValueTextField.getText().replaceAll(" ", ""));
+            BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText().replaceAll(" ", ""));
             BigDecimal interestRate = new BigDecimal(interestRateTextField.getText());
             BigDecimal loanTerm = new BigDecimal(loanTermTextField.getText());
 
