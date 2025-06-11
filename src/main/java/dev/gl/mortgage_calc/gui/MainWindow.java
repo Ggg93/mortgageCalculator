@@ -3,6 +3,7 @@ package dev.gl.mortgage_calc.gui;
 import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
+import dev.gl.mortgage_calc.listeners.ZeroIfEmptyFocusListener;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -322,8 +323,13 @@ public class MainWindow extends javax.swing.JFrame {
         aboutMenuItem.addActionListener(new AboutDialogListener(this));
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
+
+        homeValueTextField.addFocusListener(new ZeroIfEmptyFocusListener(homeValueTextField));
+        downPaymentTextField.addFocusListener(new ZeroIfEmptyFocusListener(downPaymentTextField));
+        interestRateTextField.addFocusListener(new ZeroIfEmptyFocusListener(interestRateTextField));
+        loarTermTextField.addFocusListener(new ZeroIfEmptyFocusListener(loarTermTextField));
     }
-    
+
     private void setDocumentFilters() {
         ((AbstractDocument) homeValueTextField.getDocument())
                 .setDocumentFilter(new IntegerRangeDocumentFilter(0, 999999999));
@@ -334,18 +340,18 @@ public class MainWindow extends javax.swing.JFrame {
         ((AbstractDocument) loarTermTextField.getDocument())
                 .setDocumentFilter(new IntegerRangeDocumentFilter(0, 50));
     }
-    
+
     public boolean isInputValid() {
         Integer downPayment = Integer.parseInt(downPaymentTextField.getText());
         Integer homeValue = Integer.parseInt(homeValueTextField.getText());
         if (downPayment.compareTo(homeValue) >= 0) {
-            JOptionPane.showMessageDialog(this, 
-                    "Down Payment should be less than Home Value"
-            , getTitle()
-            , JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Down Payment should be less than Home Value",
+                     getTitle(),
+                     JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
-        
+
         return true;
     }
 

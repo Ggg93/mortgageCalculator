@@ -66,6 +66,10 @@ public class IntegerRangeDocumentFilter extends DocumentFilter {
         if (text.isEmpty()) {
             return true;
         }
+        
+        if (text.length() > 1 && text.charAt(0) == '0' && text.charAt(1) == '0') {
+            return false;
+        }
 
         try {
             Integer value = Integer.parseInt(text);
