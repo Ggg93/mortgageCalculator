@@ -9,12 +9,12 @@ import javax.swing.text.DocumentFilter;
  *
  * @author gl
  */
-public class IntegerRangeDocumentFilter extends DocumentFilter {
+public class DoubleRangeDocumentFilter extends DocumentFilter {
 
-    private Integer min;
-    private Integer max;
+    private Double min;
+    private Double max;
 
-    public IntegerRangeDocumentFilter(Integer min, Integer max) {
+    public DoubleRangeDocumentFilter(Double min, Double max) {
         this.min = min;
         this.max = max;
     }
@@ -48,8 +48,8 @@ public class IntegerRangeDocumentFilter extends DocumentFilter {
     }
 
     @Override
-    public void remove(FilterBypass fb,
-            int offset,
+    public void remove(FilterBypass fb, 
+            int offset, 
             int length) throws BadLocationException {
         Document doc = fb.getDocument();
         StringBuilder sb = new StringBuilder(doc.getText(0, doc.getLength()));
@@ -66,13 +66,20 @@ public class IntegerRangeDocumentFilter extends DocumentFilter {
         if (text.isEmpty()) {
             return true;
         }
-
+        
         if (text.length() > 1 && text.charAt(0) == '0' && text.charAt(1) == '0') {
             return false;
         }
 
         try {
-            Integer value = Integer.parseInt(text);
+            Double value = Double.parseDouble(text);
+            int decimalPointIdx = text.indexOf('.');
+            if (decimalPointIdx >= 0) {
+                int decimalPlaces = text.length() - decimalPointIdx - 1;
+                if (decimalPlaces > 2) {
+                    return false;
+                }
+            }
             return value >= min && value <= max;
 
         } catch (Exception ignored) {
@@ -80,3 +87,5 @@ public class IntegerRangeDocumentFilter extends DocumentFilter {
         }
     }
 }
+
+

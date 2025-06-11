@@ -4,6 +4,7 @@ import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
 import dev.gl.mortgage_calc.listeners.ZeroIfEmptyFocusListener;
+import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -332,11 +333,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void setDocumentFilters() {
         ((AbstractDocument) homeValueTextField.getDocument())
-                .setDocumentFilter(new IntegerRangeDocumentFilter(0, 999999999));
+                .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 999999999.0));
         ((AbstractDocument) downPaymentTextField.getDocument())
-                .setDocumentFilter(new IntegerRangeDocumentFilter(0, 999999999));
+                .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 999999999.0));
         ((AbstractDocument) interestRateTextField.getDocument())
-                .setDocumentFilter(new IntegerRangeDocumentFilter(0, 99));
+                .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 99.9));
         ((AbstractDocument) loarTermTextField.getDocument())
                 .setDocumentFilter(new IntegerRangeDocumentFilter(0, 50));
     }
