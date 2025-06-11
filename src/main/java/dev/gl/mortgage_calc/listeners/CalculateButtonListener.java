@@ -1,6 +1,7 @@
 package dev.gl.mortgage_calc.listeners;
 
 import dev.gl.mortgage_calc.gui.MainWindow;
+import dev.gl.mortgage_calc.models.Calculator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,10 @@ public class CalculateButtonListener implements ActionListener {
         if (!mw.isInputValid()) {
             return;
         }
+        
+        Calculator calculator = mw.createCalculator();
+        calculator.calculateMortgage();
+        mw.showOutput();
     }
 
 }

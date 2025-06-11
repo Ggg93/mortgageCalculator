@@ -4,8 +4,15 @@ import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
 import dev.gl.mortgage_calc.listeners.DefaultIfEmptyFocusListener;
+import dev.gl.mortgage_calc.models.Calculator;
+import dev.gl.mortgage_calc.models.EarlyRepayment;
 import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
@@ -15,6 +22,8 @@ import javax.swing.text.AbstractDocument;
  * @author gl
  */
 public class MainWindow extends javax.swing.JFrame {
+    
+    private Calculator calculator;
 
     public MainWindow() {
         initComponents();
@@ -348,12 +357,37 @@ public class MainWindow extends javax.swing.JFrame {
         if (downPayment.compareTo(homeValue) >= 0) {
             JOptionPane.showMessageDialog(this,
                     "Down Payment should be less than Home Value",
-                     getTitle(),
-                     JOptionPane.INFORMATION_MESSAGE);
+                    getTitle(),
+                    JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
 
         return true;
+    }
+
+    public Calculator createCalculator() {
+
+        try {
+            BigDecimal homeValue = new BigDecimal(homeValueTextField.getText());
+            BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText());
+            BigDecimal interestRate = new BigDecimal(interestRateTextField.getText());
+            BigDecimal loanTerm = new BigDecimal(loanTermTextField.getText());
+            
+            List<EarlyRepayment> earlyRepayments = new ArrayList<>();
+
+            calculator = new Calculator(homeValue, downPayment, interestRate, loanTerm, earlyRepayments);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+
+        return calculator;
+    }
+
+    public void showOutput() {
+        loanAmountTextField.setText(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).toString());
+        monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
+        totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
+        loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
     }
 
 }
