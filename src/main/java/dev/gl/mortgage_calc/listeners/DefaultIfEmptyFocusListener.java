@@ -8,12 +8,12 @@ import javax.swing.JTextField;
  *
  * @author gl
  */
-public class ZeroIfEmptyFocusListener implements FocusListener{
+public class DefaultIfEmptyFocusListener implements FocusListener{
     
     private JTextField textField;
     private String defaultText;
 
-    public ZeroIfEmptyFocusListener(JTextField textField, String defaultText) {
+    public DefaultIfEmptyFocusListener(JTextField textField, String defaultText) {
         this.textField = textField;
         this.defaultText = defaultText;
     }

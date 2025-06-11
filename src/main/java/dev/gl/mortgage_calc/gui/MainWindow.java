@@ -3,7 +3,7 @@ package dev.gl.mortgage_calc.gui;
 import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
-import dev.gl.mortgage_calc.listeners.ZeroIfEmptyFocusListener;
+import dev.gl.mortgage_calc.listeners.DefaultIfEmptyFocusListener;
 import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
 import javax.swing.ImageIcon;
@@ -325,10 +325,10 @@ public class MainWindow extends javax.swing.JFrame {
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
 
-        homeValueTextField.addFocusListener(new ZeroIfEmptyFocusListener(homeValueTextField, "0"));
-        downPaymentTextField.addFocusListener(new ZeroIfEmptyFocusListener(downPaymentTextField, "0"));
-        interestRateTextField.addFocusListener(new ZeroIfEmptyFocusListener(interestRateTextField, "0"));
-        loanTermTextField.addFocusListener(new ZeroIfEmptyFocusListener(loanTermTextField, "1"));
+        homeValueTextField.addFocusListener(new DefaultIfEmptyFocusListener(homeValueTextField, "0"));
+        downPaymentTextField.addFocusListener(new DefaultIfEmptyFocusListener(downPaymentTextField, "0"));
+        interestRateTextField.addFocusListener(new DefaultIfEmptyFocusListener(interestRateTextField, "0"));
+        loanTermTextField.addFocusListener(new DefaultIfEmptyFocusListener(loanTermTextField, "1"));
     }
 
     private void setDocumentFilters() {
