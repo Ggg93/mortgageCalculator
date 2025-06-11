@@ -69,7 +69,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mortgage Calculator");
-        setMinimumSize(new java.awt.Dimension(400, 300));
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        setPreferredSize(new java.awt.Dimension(600, 400));
+        setResizable(false);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -86,6 +88,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Home Value: ");
         jPanel8.add(jLabel1);
 
+        homeValueTextField.setColumns(9);
         homeValueTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         homeValueTextField.setText("0");
         jPanel8.add(homeValueTextField);
@@ -98,6 +101,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2.setText("Down Payment: ");
         jPanel9.add(jLabel2);
 
+        downPaymentTextField.setColumns(9);
         downPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         downPaymentTextField.setText("0");
         jPanel9.add(downPaymentTextField);
@@ -110,6 +114,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel3.setText("Interest Rate: ");
         jPanel10.add(jLabel3);
 
+        interestRateTextField.setColumns(3);
         interestRateTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         interestRateTextField.setText("0");
         jPanel10.add(interestRateTextField);
@@ -126,6 +131,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel4.setText("Loan Term: ");
         jPanel11.add(jLabel4);
 
+        loarTermTextField.setColumns(3);
         loarTermTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         loarTermTextField.setText("0");
         jPanel11.add(loarTermTextField);
@@ -148,6 +154,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel12.add(jLabel5);
 
         loanAmountTextField.setEditable(false);
+        loanAmountTextField.setColumns(9);
         loanAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         loanAmountTextField.setText("0");
         jPanel12.add(loanAmountTextField);
@@ -161,6 +168,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel13.add(jLabel6);
 
         monthlyPaymentTextField.setEditable(false);
+        monthlyPaymentTextField.setColumns(9);
         monthlyPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         monthlyPaymentTextField.setText("0");
         jPanel13.add(monthlyPaymentTextField);
@@ -174,6 +182,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel14.add(jLabel7);
 
         totalInterestPaidTextField.setEditable(false);
+        totalInterestPaidTextField.setColumns(9);
         totalInterestPaidTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         totalInterestPaidTextField.setText("0");
         jPanel14.add(totalInterestPaidTextField);
@@ -187,8 +196,8 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel15.add(jLabel8);
 
         loadPayoffDateTextField.setEditable(false);
+        loadPayoffDateTextField.setColumns(9);
         loadPayoffDateTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        loadPayoffDateTextField.setText("0");
         jPanel15.add(loadPayoffDateTextField);
 
         mainOutputPanel.add(jPanel15);
@@ -214,11 +223,11 @@ public class MainWindow extends javax.swing.JFrame {
         earlyRepaymentsPanel.setLayout(earlyRepaymentsPanelLayout);
         earlyRepaymentsPanelLayout.setHorizontalGroup(
             earlyRepaymentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
         earlyRepaymentsPanelLayout.setVerticalGroup(
             earlyRepaymentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 234, Short.MAX_VALUE)
+            .addGap(0, 254, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Early Repayments", earlyRepaymentsPanel);
@@ -227,11 +236,11 @@ public class MainWindow extends javax.swing.JFrame {
         chartsPanel.setLayout(chartsPanelLayout);
         chartsPanelLayout.setHorizontalGroup(
             chartsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
         chartsPanelLayout.setVerticalGroup(
             chartsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 234, Short.MAX_VALUE)
+            .addGap(0, 254, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Charts", chartsPanel);
@@ -241,12 +250,15 @@ public class MainWindow extends javax.swing.JFrame {
         mainMenuBar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         mainMenu.setText("Menu");
+        mainMenu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        aboutMenuItem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         aboutMenuItem.setText("About");
         mainMenu.add(aboutMenuItem);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        exitMenuItem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         exitMenuItem.setText("Exit");
         mainMenu.add(exitMenuItem);
 
