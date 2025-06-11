@@ -10,19 +10,24 @@ import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
  * @author gl
  */
 public class MainWindow extends javax.swing.JFrame {
-    
+
     private Calculator calculator;
 
     public MainWindow() {
@@ -31,6 +36,16 @@ public class MainWindow extends javax.swing.JFrame {
         setIcon();
         addListeners();
         setDocumentFilters();
+
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+        dfs.setGroupingSeparator(' ');
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
+        decimalFormat.setGroupingUsed(true);
+
+        loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
     }
 
     @SuppressWarnings("unchecked")
@@ -58,13 +73,13 @@ public class MainWindow extends javax.swing.JFrame {
         mainOutputPanel = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        loanAmountTextField = new javax.swing.JTextField();
+        loanAmountTextField = new javax.swing.JFormattedTextField();
         jPanel13 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        monthlyPaymentTextField = new javax.swing.JTextField();
+        monthlyPaymentTextField = new javax.swing.JFormattedTextField();
         jPanel14 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        totalInterestPaidTextField = new javax.swing.JTextField();
+        totalInterestPaidTextField = new javax.swing.JFormattedTextField();
         jPanel15 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         loadPayoffDateTextField = new javax.swing.JTextField();
@@ -166,8 +181,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         loanAmountTextField.setEditable(false);
         loanAmountTextField.setColumns(9);
-        loanAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         loanAmountTextField.setText("0");
+        loanAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel12.add(loanAmountTextField);
 
         mainOutputPanel.add(jPanel12);
@@ -180,8 +195,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         monthlyPaymentTextField.setEditable(false);
         monthlyPaymentTextField.setColumns(9);
-        monthlyPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         monthlyPaymentTextField.setText("0");
+        monthlyPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel13.add(monthlyPaymentTextField);
 
         mainOutputPanel.add(jPanel13);
@@ -194,8 +209,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         totalInterestPaidTextField.setEditable(false);
         totalInterestPaidTextField.setColumns(9);
-        totalInterestPaidTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         totalInterestPaidTextField.setText("0");
+        totalInterestPaidTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel14.add(totalInterestPaidTextField);
 
         mainOutputPanel.add(jPanel14);
@@ -310,7 +325,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField loadPayoffDateTextField;
-    private javax.swing.JTextField loanAmountTextField;
+    private javax.swing.JFormattedTextField loanAmountTextField;
     private javax.swing.JTextField loanTermTextField;
     private javax.swing.JPanel mainButtonsPanel;
     private javax.swing.JPanel mainDataPanel;
@@ -319,9 +334,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JPanel mainOutputPanel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JTextField monthlyPaymentTextField;
+    private javax.swing.JFormattedTextField monthlyPaymentTextField;
     private javax.swing.JButton openPaymentScheduleButton;
-    private javax.swing.JTextField totalInterestPaidTextField;
+    private javax.swing.JFormattedTextField totalInterestPaidTextField;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {
@@ -372,7 +387,7 @@ public class MainWindow extends javax.swing.JFrame {
             BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText());
             BigDecimal interestRate = new BigDecimal(interestRateTextField.getText());
             BigDecimal loanTerm = new BigDecimal(loanTermTextField.getText());
-            
+
             List<EarlyRepayment> earlyRepayments = new ArrayList<>();
 
             calculator = new Calculator(homeValue, downPayment, interestRate, loanTerm, earlyRepayments);
@@ -388,6 +403,14 @@ public class MainWindow extends javax.swing.JFrame {
         monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
         totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+    }
+
+    private NumberFormatter createNumberFormatter(DecimalFormat decimalFormat) {
+        NumberFormatter formatter = new NumberFormatter(decimalFormat);
+        formatter.setValueClass(Double.class);
+        formatter.setAllowsInvalid(false);
+
+        return formatter;
     }
 
 }
