@@ -36,20 +36,8 @@ public class MainWindow extends javax.swing.JFrame {
         setIcon();
         addListeners();
         setDocumentFilters();
+        setNumberFormatters();
 
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
-        dfs.setGroupingSeparator(' ');
-
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
-        decimalFormat.setGroupingUsed(true);
-        decimalFormat.setMaximumIntegerDigits(9);
-        decimalFormat.setMaximumFractionDigits(2);
-
-        homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
-        downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
-        loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
-        monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
-        totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
     }
 
     @SuppressWarnings("unchecked")
@@ -411,10 +399,27 @@ public class MainWindow extends javax.swing.JFrame {
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
     }
 
+    private void setNumberFormatters() {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+        dfs.setGroupingSeparator(' ');
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
+        decimalFormat.setGroupingUsed(true);
+        decimalFormat.setMaximumIntegerDigits(9);
+        decimalFormat.setMaximumFractionDigits(2);
+
+        homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+    }
+
     private NumberFormatter createNumberFormatter(DecimalFormat decimalFormat) {
         NumberFormatter formatter = new NumberFormatter(decimalFormat);
         formatter.setValueClass(Double.class);
         formatter.setAllowsInvalid(false);
+        formatter.setMinimum(0.0);
 
         return formatter;
     }
