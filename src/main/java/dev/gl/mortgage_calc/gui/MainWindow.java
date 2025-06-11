@@ -4,6 +4,7 @@ import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
 import dev.gl.mortgage_calc.listeners.DefaultIfEmptyFocusListener;
+import dev.gl.mortgage_calc.listeners.PaymentScheduleListener;
 import dev.gl.mortgage_calc.models.Calculator;
 import dev.gl.mortgage_calc.models.EarlyRepayment;
 import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
@@ -342,6 +343,7 @@ public class MainWindow extends javax.swing.JFrame {
         aboutMenuItem.addActionListener(new AboutDialogListener(this));
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
+        openPaymentScheduleButton.addActionListener(new PaymentScheduleListener(this));
 
         homeValueTextField.addFocusListener(new DefaultIfEmptyFocusListener(homeValueTextField, "0"));
         downPaymentTextField.addFocusListener(new DefaultIfEmptyFocusListener(downPaymentTextField, "0"));
@@ -397,6 +399,7 @@ public class MainWindow extends javax.swing.JFrame {
         monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
         totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+        setOpenPaymentScheduleButtonEnabled(true);
     }
 
     private void setNumberFormatters() {
@@ -423,5 +426,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         return formatter;
     }
+    
+    private void setOpenPaymentScheduleButtonEnabled(boolean isEnabled) {
+        openPaymentScheduleButton.setEnabled(isEnabled);
+    }
 
+    public Calculator getCalculator() {
+        return calculator;
+    }
+    
 }

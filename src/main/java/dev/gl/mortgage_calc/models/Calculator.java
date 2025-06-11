@@ -78,6 +78,12 @@ public class Calculator {
     }
 
     private BigDecimal calculateAnnuityPayment() {
+        
+        // if interest rate is zero
+        if (monthInterestRate.compareTo(BigDecimal.ZERO) == 0) {
+            return loanAmount.divide(new BigDecimal(monthsNumber), 2, RoundingMode.HALF_UP);
+        }
+        
         BigDecimal growthFactor = BigDecimal.ONE.add(monthInterestRate).pow(monthsNumber);
         BigDecimal numerator = loanAmount.multiply(monthInterestRate).multiply(growthFactor);
         BigDecimal denominator = growthFactor.subtract(BigDecimal.ONE);
