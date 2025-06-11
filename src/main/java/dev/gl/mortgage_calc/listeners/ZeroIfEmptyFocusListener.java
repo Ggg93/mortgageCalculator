@@ -11,14 +11,16 @@ import javax.swing.JTextField;
 public class ZeroIfEmptyFocusListener implements FocusListener{
     
     private JTextField textField;
+    private String defaultText;
 
-    public ZeroIfEmptyFocusListener(JTextField textField) {
+    public ZeroIfEmptyFocusListener(JTextField textField, String defaultText) {
         this.textField = textField;
+        this.defaultText = defaultText;
     }
-    
+
     @Override
     public void focusGained(FocusEvent e) {
-        if (textField.getText().equals("0")) {
+        if (textField.getText().equals(defaultText)) {
             textField.setText("");
         }
     }
@@ -26,7 +28,7 @@ public class ZeroIfEmptyFocusListener implements FocusListener{
     @Override
     public void focusLost(FocusEvent e) {
         if (textField.getText().isEmpty()) {
-            textField.setText("0");
+            textField.setText(defaultText);
         }
     }
     

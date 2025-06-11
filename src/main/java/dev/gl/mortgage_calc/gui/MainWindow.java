@@ -44,7 +44,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        loarTermTextField = new javax.swing.JTextField();
+        loanTermTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         mainOutputPanel = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -133,10 +133,10 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel4.setText("Loan Term: ");
         jPanel11.add(jLabel4);
 
-        loarTermTextField.setColumns(3);
-        loarTermTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        loarTermTextField.setText("0");
-        jPanel11.add(loarTermTextField);
+        loanTermTextField.setColumns(3);
+        loanTermTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        loanTermTextField.setText("1");
+        jPanel11.add(loanTermTextField);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("years");
@@ -302,7 +302,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField loadPayoffDateTextField;
     private javax.swing.JTextField loanAmountTextField;
-    private javax.swing.JTextField loarTermTextField;
+    private javax.swing.JTextField loanTermTextField;
     private javax.swing.JPanel mainButtonsPanel;
     private javax.swing.JPanel mainDataPanel;
     private javax.swing.JPanel mainInputPanel;
@@ -325,10 +325,10 @@ public class MainWindow extends javax.swing.JFrame {
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
 
-        homeValueTextField.addFocusListener(new ZeroIfEmptyFocusListener(homeValueTextField));
-        downPaymentTextField.addFocusListener(new ZeroIfEmptyFocusListener(downPaymentTextField));
-        interestRateTextField.addFocusListener(new ZeroIfEmptyFocusListener(interestRateTextField));
-        loarTermTextField.addFocusListener(new ZeroIfEmptyFocusListener(loarTermTextField));
+        homeValueTextField.addFocusListener(new ZeroIfEmptyFocusListener(homeValueTextField, "0"));
+        downPaymentTextField.addFocusListener(new ZeroIfEmptyFocusListener(downPaymentTextField, "0"));
+        interestRateTextField.addFocusListener(new ZeroIfEmptyFocusListener(interestRateTextField, "0"));
+        loanTermTextField.addFocusListener(new ZeroIfEmptyFocusListener(loanTermTextField, "1"));
     }
 
     private void setDocumentFilters() {
@@ -338,8 +338,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 999999999.0));
         ((AbstractDocument) interestRateTextField.getDocument())
                 .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 99.9));
-        ((AbstractDocument) loarTermTextField.getDocument())
-                .setDocumentFilter(new IntegerRangeDocumentFilter(0, 50));
+        ((AbstractDocument) loanTermTextField.getDocument())
+                .setDocumentFilter(new IntegerRangeDocumentFilter(1, 50));
     }
 
     public boolean isInputValid() {
