@@ -4,6 +4,7 @@ import dev.gl.mortgage_calc.listeners.AboutDialogListener;
 import dev.gl.mortgage_calc.listeners.CalculateButtonListener;
 import dev.gl.mortgage_calc.listeners.ExitListener;
 import dev.gl.mortgage_calc.listeners.DefaultIfEmptyFocusListener;
+import dev.gl.mortgage_calc.listeners.EarlyRepaymentListener;
 import dev.gl.mortgage_calc.listeners.PaymentScheduleListener;
 import dev.gl.mortgage_calc.models.Calculator;
 import dev.gl.mortgage_calc.models.EarlyRepayment;
@@ -28,9 +29,9 @@ import javax.swing.text.NumberFormatter;
  * @author gl
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    
     private Calculator calculator;
-
+    
     public MainWindow() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -38,9 +39,9 @@ public class MainWindow extends javax.swing.JFrame {
         addListeners();
         setDocumentFilters();
         setNumberFormatters();
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -80,6 +81,11 @@ public class MainWindow extends javax.swing.JFrame {
         calculateButton = new javax.swing.JButton();
         openPaymentScheduleButton = new javax.swing.JButton();
         earlyRepaymentsPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        earlyRepaymentsScrollPane = new javax.swing.JScrollPane();
+        viewportPanel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        addNewEarlyRepaymentButton = new javax.swing.JButton();
         chartsPanel = new javax.swing.JPanel();
         mainMenuBar = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
@@ -90,7 +96,6 @@ public class MainWindow extends javax.swing.JFrame {
         setTitle("Mortgage Calculator");
         setMinimumSize(new java.awt.Dimension(600, 400));
         setPreferredSize(new java.awt.Dimension(600, 400));
-        setResizable(false);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -240,16 +245,23 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Main", mainPanel);
 
-        javax.swing.GroupLayout earlyRepaymentsPanelLayout = new javax.swing.GroupLayout(earlyRepaymentsPanel);
-        earlyRepaymentsPanel.setLayout(earlyRepaymentsPanelLayout);
-        earlyRepaymentsPanelLayout.setHorizontalGroup(
-            earlyRepaymentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
-        );
-        earlyRepaymentsPanelLayout.setVerticalGroup(
-            earlyRepaymentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 254, Short.MAX_VALUE)
-        );
+        earlyRepaymentsPanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        viewportPanel.setLayout(new javax.swing.BoxLayout(viewportPanel, javax.swing.BoxLayout.Y_AXIS));
+        earlyRepaymentsScrollPane.setViewportView(viewportPanel);
+
+        jPanel1.add(earlyRepaymentsScrollPane, java.awt.BorderLayout.CENTER);
+
+        earlyRepaymentsPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        addNewEarlyRepaymentButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        addNewEarlyRepaymentButton.setText("Add New Early Repayment");
+        addNewEarlyRepaymentButton.setEnabled(false);
+        jPanel2.add(addNewEarlyRepaymentButton);
+
+        earlyRepaymentsPanel.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jTabbedPane1.addTab("Early Repayments", earlyRepaymentsPanel);
 
@@ -293,10 +305,12 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JButton addNewEarlyRepaymentButton;
     private javax.swing.JButton calculateButton;
     private javax.swing.JPanel chartsPanel;
     private javax.swing.JFormattedTextField downPaymentTextField;
     private javax.swing.JPanel earlyRepaymentsPanel;
+    private javax.swing.JScrollPane earlyRepaymentsScrollPane;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JFormattedTextField homeValueTextField;
     private javax.swing.JTextField interestRateTextField;
@@ -310,12 +324,14 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -332,25 +348,32 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField monthlyPaymentTextField;
     private javax.swing.JButton openPaymentScheduleButton;
     private javax.swing.JFormattedTextField totalInterestPaidTextField;
+    private javax.swing.JPanel viewportPanel;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {
         ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/icons8-mortgage-40.png"));
         this.setIconImage(icon.getImage());
     }
-
+    
     private void addListeners() {
+
+        // main tab
         aboutMenuItem.addActionListener(new AboutDialogListener(this));
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
         openPaymentScheduleButton.addActionListener(new PaymentScheduleListener(this));
-
+        
         homeValueTextField.addFocusListener(new DefaultIfEmptyFocusListener(homeValueTextField, "0"));
         downPaymentTextField.addFocusListener(new DefaultIfEmptyFocusListener(downPaymentTextField, "0"));
         interestRateTextField.addFocusListener(new DefaultIfEmptyFocusListener(interestRateTextField, "0"));
         loanTermTextField.addFocusListener(new DefaultIfEmptyFocusListener(loanTermTextField, "1"));
-    }
 
+        // early repayments tab
+        addNewEarlyRepaymentButton.addActionListener(new EarlyRepaymentListener(this, null));
+        
+    }
+    
     private void setDocumentFilters() {
         ((AbstractDocument) homeValueTextField.getDocument())
                 .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 999999999.0));
@@ -361,7 +384,7 @@ public class MainWindow extends javax.swing.JFrame {
         ((AbstractDocument) loanTermTextField.getDocument())
                 .setDocumentFilter(new IntegerRangeDocumentFilter(1, 50));
     }
-
+    
     public boolean isInputValid() {
         Double downPayment = Double.parseDouble(downPaymentTextField.getText().replaceAll(" ", ""));
         Double homeValue = Double.parseDouble(homeValueTextField.getText().replaceAll(" ", ""));
@@ -372,67 +395,84 @@ public class MainWindow extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
-
+        
         return true;
     }
-
+    
     public Calculator createCalculator() {
-
+        
         try {
             BigDecimal homeValue = new BigDecimal(homeValueTextField.getText().replaceAll(" ", ""));
             BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText().replaceAll(" ", ""));
             BigDecimal interestRate = new BigDecimal(interestRateTextField.getText());
             BigDecimal loanTerm = new BigDecimal(loanTermTextField.getText());
-
+            
             List<EarlyRepayment> earlyRepayments = new ArrayList<>();
-
+            
             calculator = new Calculator(homeValue, downPayment, interestRate, loanTerm, earlyRepayments);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
-
+        
         return calculator;
     }
-
+    
     public void showOutput() {
         loanAmountTextField.setText(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).toString());
         monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
         totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
         setOpenPaymentScheduleButtonEnabled(true);
+        setAddNewEarlyRepaymentButtonEnabled(true);
     }
-
+    
     private void setNumberFormatters() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
         dfs.setGroupingSeparator(' ');
-
+        
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
         decimalFormat.setGroupingUsed(true);
         decimalFormat.setMaximumIntegerDigits(9);
         decimalFormat.setMaximumFractionDigits(2);
-
+        
         homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
     }
-
+    
     private NumberFormatter createNumberFormatter(DecimalFormat decimalFormat) {
         NumberFormatter formatter = new NumberFormatter(decimalFormat);
         formatter.setValueClass(Double.class);
         formatter.setAllowsInvalid(false);
         formatter.setMinimum(0.0);
-
+        
         return formatter;
     }
     
     private void setOpenPaymentScheduleButtonEnabled(boolean isEnabled) {
         openPaymentScheduleButton.setEnabled(isEnabled);
     }
-
+    
+    private void setAddNewEarlyRepaymentButtonEnabled(boolean isEnabled) {
+        addNewEarlyRepaymentButton.setEnabled(isEnabled);
+    }
+    
     public Calculator getCalculator() {
         return calculator;
+    }
+    
+    public void addEarlyRepayment(EarlyRepaymentPanel panel) {
+//        earlyRepaymentsScrollPane.add(panel);
+        panel.setSize(viewportPanel.getWidth(), viewportPanel.getHeight());
+        viewportPanel.add(panel);
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void deleteEarlyRepayment(EarlyRepaymentPanel aThis, EarlyRepayment repayment) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
