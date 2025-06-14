@@ -36,7 +36,7 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
                     JOptionPane.YES_NO_OPTION);
 
             if (answer == 0) {
-                parent.deleteEarlyRepayment(this, repayment);
+                parent.deleteEarlyRepayment(this);
             }
         });
     }
@@ -44,7 +44,6 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -95,7 +94,8 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         amountTextField.setEditable(false);
-        amountTextField.setColumns(12);
+        amountTextField.setColumns(10);
+        amountTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         amountTextField.setText("0");
         amountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel1.add(amountTextField, new java.awt.GridBagConstraints());
@@ -105,8 +105,9 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         frequencyTextField.setEditable(false);
-        frequencyTextField.setColumns(12);
+        frequencyTextField.setColumns(10);
         frequencyTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        frequencyTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel2.add(frequencyTextField, new java.awt.GridBagConstraints());
 
         add(jPanel2);
@@ -114,8 +115,9 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         strategyTextField.setEditable(false);
-        strategyTextField.setColumns(12);
+        strategyTextField.setColumns(10);
         strategyTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        strategyTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel3.add(strategyTextField, new java.awt.GridBagConstraints());
 
         add(jPanel3);
@@ -123,15 +125,10 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         firstPaymentPeriodTextField.setEditable(false);
-        firstPaymentPeriodTextField.setColumns(12);
+        firstPaymentPeriodTextField.setColumns(10);
         firstPaymentPeriodTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(50, 41, 58, 54);
-        jPanel4.add(firstPaymentPeriodTextField, gridBagConstraints);
+        firstPaymentPeriodTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel4.add(firstPaymentPeriodTextField, new java.awt.GridBagConstraints());
 
         add(jPanel4);
 
@@ -184,4 +181,8 @@ public class EarlyRepaymentPanel extends javax.swing.JPanel {
         return formatter;
     }
 
+    public EarlyRepayment getRepayment() {
+        return repayment;
+    }
+    
 }

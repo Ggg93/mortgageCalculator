@@ -48,6 +48,7 @@ public class EarlyRepaymentsAbractAction extends AbstractAction {
         // creating new EarlyRepayment panel
         EarlyRepaymentPanel panel = new EarlyRepaymentPanel(mw, repayment);
         mw.addEarlyRepayment(panel);
+        mw.refreshCalculations();
         parent.dispose();
     }
     

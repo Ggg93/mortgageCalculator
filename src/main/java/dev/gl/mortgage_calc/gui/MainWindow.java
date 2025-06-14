@@ -10,6 +10,8 @@ import dev.gl.mortgage_calc.models.Calculator;
 import dev.gl.mortgage_calc.models.EarlyRepayment;
 import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -29,9 +31,10 @@ import javax.swing.text.NumberFormatter;
  * @author gl
  */
 public class MainWindow extends javax.swing.JFrame {
-    
+
     private Calculator calculator;
-    
+    private List<EarlyRepaymentPanel> earlyRepaymentPanels;
+
     public MainWindow() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -39,9 +42,10 @@ public class MainWindow extends javax.swing.JFrame {
         addListeners();
         setDocumentFilters();
         setNumberFormatters();
-        
+
+        earlyRepaymentPanels = new ArrayList<>();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,8 +98,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mortgage Calculator");
-        setMinimumSize(new java.awt.Dimension(600, 400));
-        setPreferredSize(new java.awt.Dimension(600, 400));
+        setMinimumSize(new java.awt.Dimension(700, 400));
+        setPreferredSize(new java.awt.Dimension(700, 400));
+        setResizable(false);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -355,7 +360,7 @@ public class MainWindow extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/icons8-mortgage-40.png"));
         this.setIconImage(icon.getImage());
     }
-    
+
     private void addListeners() {
 
         // main tab
@@ -363,7 +368,7 @@ public class MainWindow extends javax.swing.JFrame {
         exitMenuItem.addActionListener(new ExitListener(this));
         calculateButton.addActionListener(new CalculateButtonListener(this));
         openPaymentScheduleButton.addActionListener(new PaymentScheduleListener(this));
-        
+
         homeValueTextField.addFocusListener(new DefaultIfEmptyFocusListener(homeValueTextField, "0"));
         downPaymentTextField.addFocusListener(new DefaultIfEmptyFocusListener(downPaymentTextField, "0"));
         interestRateTextField.addFocusListener(new DefaultIfEmptyFocusListener(interestRateTextField, "0"));
@@ -371,9 +376,24 @@ public class MainWindow extends javax.swing.JFrame {
 
         // early repayments tab
         addNewEarlyRepaymentButton.addActionListener(new EarlyRepaymentListener(this, null));
-        
+
     }
-    
+
+    public void refreshCalculations() {
+        CalculateButtonListener cbl = null;
+        for (ActionListener actionListener : calculateButton.getActionListeners()) {
+            if (actionListener instanceof CalculateButtonListener) {
+                cbl = (CalculateButtonListener) actionListener;
+                break;
+            }
+        }
+        if (cbl == null) {
+            return;
+        }
+
+        cbl.actionPerformed(null);
+    }
+
     private void setDocumentFilters() {
         ((AbstractDocument) homeValueTextField.getDocument())
                 .setDocumentFilter(new DoubleRangeDocumentFilter(0.0, 999999999.0));
@@ -384,7 +404,7 @@ public class MainWindow extends javax.swing.JFrame {
         ((AbstractDocument) loanTermTextField.getDocument())
                 .setDocumentFilter(new IntegerRangeDocumentFilter(1, 50));
     }
-    
+
     public boolean isInputValid() {
         Double downPayment = Double.parseDouble(downPaymentTextField.getText().replaceAll(" ", ""));
         Double homeValue = Double.parseDouble(homeValueTextField.getText().replaceAll(" ", ""));
@@ -395,28 +415,31 @@ public class MainWindow extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
-        
+
         return true;
     }
-    
+
     public Calculator createCalculator() {
-        
+
         try {
             BigDecimal homeValue = new BigDecimal(homeValueTextField.getText().replaceAll(" ", ""));
             BigDecimal downPayment = new BigDecimal(downPaymentTextField.getText().replaceAll(" ", ""));
             BigDecimal interestRate = new BigDecimal(interestRateTextField.getText());
             BigDecimal loanTerm = new BigDecimal(loanTermTextField.getText());
-            
+
             List<EarlyRepayment> earlyRepayments = new ArrayList<>();
-            
+            for (EarlyRepaymentPanel earlyRepaymentPanel : earlyRepaymentPanels) {
+                earlyRepayments.add(earlyRepaymentPanel.getRepayment());
+            }
+
             calculator = new Calculator(homeValue, downPayment, interestRate, loanTerm, earlyRepayments);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
-        
+
         return calculator;
     }
-    
+
     public void showOutput() {
         loanAmountTextField.setText(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).toString());
         monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
@@ -425,54 +448,61 @@ public class MainWindow extends javax.swing.JFrame {
         setOpenPaymentScheduleButtonEnabled(true);
         setAddNewEarlyRepaymentButtonEnabled(true);
     }
-    
+
     private void setNumberFormatters() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
         dfs.setGroupingSeparator(' ');
-        
+
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", dfs);
         decimalFormat.setGroupingUsed(true);
         decimalFormat.setMaximumIntegerDigits(9);
         decimalFormat.setMaximumFractionDigits(2);
-        
+
         homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
     }
-    
+
     private NumberFormatter createNumberFormatter(DecimalFormat decimalFormat) {
         NumberFormatter formatter = new NumberFormatter(decimalFormat);
         formatter.setValueClass(Double.class);
         formatter.setAllowsInvalid(false);
         formatter.setMinimum(0.0);
-        
+
         return formatter;
     }
-    
+
     private void setOpenPaymentScheduleButtonEnabled(boolean isEnabled) {
         openPaymentScheduleButton.setEnabled(isEnabled);
     }
-    
+
     private void setAddNewEarlyRepaymentButtonEnabled(boolean isEnabled) {
         addNewEarlyRepaymentButton.setEnabled(isEnabled);
     }
-    
+
     public Calculator getCalculator() {
         return calculator;
     }
-    
+
     public void addEarlyRepayment(EarlyRepaymentPanel panel) {
-//        earlyRepaymentsScrollPane.add(panel);
-        panel.setSize(viewportPanel.getWidth(), viewportPanel.getHeight());
+        panel.setSize(Integer.MAX_VALUE, 100);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         viewportPanel.add(panel);
         this.revalidate();
         this.repaint();
+
+        earlyRepaymentPanels.add(panel);
     }
-    
-    public void deleteEarlyRepayment(EarlyRepaymentPanel aThis, EarlyRepayment repayment) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public void deleteEarlyRepayment(EarlyRepaymentPanel panel) {
+        viewportPanel.remove(panel);
+        earlyRepaymentPanels.remove(panel);
+        refreshCalculations();
+
+        this.revalidate();
+        this.repaint();
     }
-    
+
 }

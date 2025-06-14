@@ -53,6 +53,7 @@ public class Calculator {
         this.monthsData = new ArrayList<>();
         payOffDate = LocalDate.now().withDayOfMonth(1).plusMonths(1);
         totalInterestPaid = BigDecimal.ZERO;
+        System.out.println("repayments = " + earlyRepayments.size());
     }
 
     public void calculateMortgage() {

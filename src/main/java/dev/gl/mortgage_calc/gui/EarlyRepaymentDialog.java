@@ -255,7 +255,7 @@ public class EarlyRepaymentDialog extends javax.swing.JDialog {
     }
     
     public Double getAmount() {
-        return Double.valueOf(amountTextField.getText());
+        return Double.valueOf(amountTextField.getText().replaceAll(" ", ""));
     }
     
     public Frequency getFrequency() {
