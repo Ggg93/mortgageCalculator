@@ -7,18 +7,18 @@ A Java-based GUI application for calculating mortgage payments, including early 
 1. Easy-to-use, user-friendly interface.
    
 2. Wide range of early repayment options: user can choose different payment frequencies and strategies.<br>
-<img src="/src/main/resources/images/screenshots/repaymentsDialog.png" width="700" height="400"><br>
-<img src="/src/main/resources/images/screenshots/repayments.png" width="700" height="400"><br>
+<img src="/src/main/resources/images/screenshots/repaymentsDialog.png" width="300" height="200"><br>
+<img src="/src/main/resources/images/screenshots/repayments.png" width="500" height="300"><br>
    
 3. Users can view monthly payment breakdowns and export them to an XLSX file<br>
-<img src="/src/main/resources/images/screenshots/schedule.png" width="700" height="400">
-<img src="/src/main/resources/images/screenshots/excel.png" width="700" height="400"><br>
+<img src="/src/main/resources/images/screenshots/schedule.png" width="500" height="300"><br>
+<img src="/src/main/resources/images/screenshots/excel.png" width="500" height="300"><br>
    
 4. Savings from early repayments are displayed on the main tab (Output group).<br>
-<img src="/src/main/resources/images/screenshots/mainWindow.png" width="700" height="400"><br>
+<img src="/src/main/resources/images/screenshots/mainWindow.png" width="500" height="300"><br>
    
 5. Simple chart summarizing loan amount, interest, and extra payments.
-<img src="/src/main/resources/images/screenshots/chart.png" width="700" height="400"><br>
+<img src="/src/main/resources/images/screenshots/chart.png" width="500" height="300"><br>
 
 
 ## Versions
