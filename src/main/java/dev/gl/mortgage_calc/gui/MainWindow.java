@@ -511,31 +511,30 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void createCommonChart() {
         chartsPanel.removeAll();
-        
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.addValue(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Loan Amount");
         dataset.addValue(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Total Interests Paid");
         dataset.addValue(calculator.getSavings().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Savings");
-        
+
         JFreeChart chart = ChartFactory.createBarChart("Results", "Parameters", "Funds", dataset);
-        
+
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        
+
         renderer.setSeriesPaint(0, new Color(0, 102, 204));
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("###,###")));
         renderer.setDefaultItemLabelsVisible(true);
         renderer.setDefaultItemLabelFont(new Font("Arial", Font.PLAIN, 14));
         renderer.setDefaultPositiveItemLabelPosition(
-                new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, 
-                        TextAnchor.BOTTOM_CENTER, 
-                        TextAnchor.CENTER, 
+                new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12,
+                        TextAnchor.BOTTOM_CENTER,
+                        TextAnchor.CENTER,
                         0.0));
-        
+
         double max = getMaxValue();
         plot.getRangeAxis().setUpperBound(max + (max * 0.2));
-        
-        
+
         BufferedImage bufferedImage = chart.createBufferedImage(600, 400);
         JLabel chartLabel = new JLabel(new ImageIcon(bufferedImage));
         chartsPanel.add(chartLabel);
