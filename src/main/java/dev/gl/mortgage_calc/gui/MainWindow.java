@@ -284,7 +284,7 @@ public class MainWindow extends javax.swing.JFrame {
         jTabbedPane1.addTab("Early Repayments", earlyRepaymentsPanel);
 
         chartsPanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane1.addTab("Charts", chartsPanel);
+        jTabbedPane1.addTab("Chart", chartsPanel);
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 

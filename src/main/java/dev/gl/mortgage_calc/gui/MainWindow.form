@@ -466,8 +466,8 @@
         <Container class="javax.swing.JPanel" name="chartsPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Charts">
-                <Property name="tabTitle" type="java.lang.String" value="Charts"/>
+              <JTabbedPaneConstraints tabName="Chart">
+                <Property name="tabTitle" type="java.lang.String" value="Chart"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
