@@ -62,6 +62,9 @@ public class Calculator {
     }
 
     public void calculateMortgage(boolean considerSavings) {
+        
+        // calculating another one time without savings
+        // by early repayments to show the savings by them
         if (considerSavings) {
             Calculator calcWithoutSavings = new Calculator(homeValue, downPayment, interestRate, loanTerm, new ArrayList<>());
             calcWithoutSavings.calculateMortgage(false);
