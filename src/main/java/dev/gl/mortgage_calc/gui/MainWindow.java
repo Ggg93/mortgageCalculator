@@ -12,6 +12,7 @@ import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -21,10 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -270,17 +275,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Early Repayments", earlyRepaymentsPanel);
 
-        javax.swing.GroupLayout chartsPanelLayout = new javax.swing.GroupLayout(chartsPanel);
-        chartsPanel.setLayout(chartsPanelLayout);
-        chartsPanelLayout.setHorizontalGroup(
-            chartsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
-        );
-        chartsPanelLayout.setVerticalGroup(
-            chartsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 254, Short.MAX_VALUE)
-        );
-
+        chartsPanel.setLayout(new java.awt.BorderLayout());
         jTabbedPane1.addTab("Charts", chartsPanel);
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
@@ -445,6 +440,7 @@ public class MainWindow extends javax.swing.JFrame {
         savingsTextField.setText(calculator.getSavings().setScale(2, RoundingMode.HALF_UP).toString());
         totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
+        createCommonChart();
         setOpenPaymentScheduleButtonEnabled(true);
         setAddNewEarlyRepaymentButtonEnabled(true);
     }
@@ -503,6 +499,22 @@ public class MainWindow extends javax.swing.JFrame {
 
         this.revalidate();
         this.repaint();
+    }
+
+    private void createCommonChart() {
+        chartsPanel.removeAll();
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.addValue(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Loan Amount");
+        dataset.addValue(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Total Interests Paid");
+        dataset.addValue(calculator.getSavings().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Savings");
+        
+        JFreeChart chart = ChartFactory.createBarChart("Results", "Parameters", "Funds", dataset);
+        BufferedImage bufferedImage = chart.createBufferedImage(600, 400);
+        JLabel chartLabel = new JLabel(new ImageIcon(bufferedImage));
+        chartsPanel.add(chartLabel);
+        chartsPanel.revalidate();
+        chartsPanel.repaint();
     }
 
 }
