@@ -1,6 +1,7 @@
 package dev.gl.mortgage_calc.gui;
 
 import dev.gl.mortgage_calc.listeners.OkDisposingAction;
+import dev.gl.mortgage_calc.listeners.saveButtonAbstractAction;
 import dev.gl.mortgage_calc.models.MonthData;
 import dev.gl.mortgage_calc.models.UneditableTableModel;
 import dev.gl.mortgage_calc.utils.BigDecimalCellRenderer;
@@ -29,6 +30,7 @@ import javax.swing.table.JTableHeader;
 public class PaymentScheduleDialog extends javax.swing.JDialog {
 
     private AbstractAction okButtonAction;
+    private AbstractAction saveButtonAction;
     private List<MonthData> monthsData;
 
     public PaymentScheduleDialog(java.awt.Frame parent, boolean modal, List<MonthData> monthsData) {
@@ -38,6 +40,7 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
         this.monthsData = monthsData;
 
         okButtonAction = new OkDisposingAction(this);
+        saveButtonAction = new saveButtonAbstractAction(this);
         setIcon();
         attachListenerToOkButton();
         bindKeyListenersToOkButton();
@@ -55,6 +58,7 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
         paymentsTable = new javax.swing.JTable();
         buttonsPanel = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mortgage Calculator");
@@ -88,6 +92,10 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
         okButton.setText("OK");
         buttonsPanel.add(okButton);
 
+        saveButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        saveButton.setText("Save");
+        buttonsPanel.add(saveButton);
+
         getContentPane().add(buttonsPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
@@ -100,6 +108,7 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
     private javax.swing.JButton okButton;
     private javax.swing.JScrollPane paymentsScrollPane;
     private javax.swing.JTable paymentsTable;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {
@@ -109,6 +118,7 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
 
     private void attachListenerToOkButton() {
         okButton.addActionListener(okButtonAction);
+        saveButton.addActionListener(saveButtonAction);
     }
 
     private void bindKeyListenersToOkButton() {
@@ -117,8 +127,10 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "ok");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ok");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), "save");
 
         actionMap.put("ok", okButtonAction);
+        actionMap.put("save", saveButtonAction);
     }
 
     private void changeFontInTable() {
@@ -188,6 +200,10 @@ public class PaymentScheduleDialog extends javax.swing.JDialog {
         paymentsTable.getColumnModel().getColumn(5).setCellRenderer(bigDecimalCellRenderer);
         paymentsTable.getColumnModel().getColumn(6).setCellRenderer(bigDecimalCellRenderer);
         paymentsTable.getColumnModel().getColumn(7).setCellRenderer(bigDecimalCellRenderer);
+    }
+
+    public List<MonthData> getData() {
+        return monthsData;
     }
 
 }
