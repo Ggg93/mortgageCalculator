@@ -1,0 +1,40 @@
+NOTICE
+
+This project uses the following third-party open-source libraries:
+
+-------------------------------------------------------------------------------
+
+1. Apache POI
+
+Website: https://poi.apache.org/
+Repository: https://github.com/apache/poi
+License: Apache License 2.0
+
+Copyright 2001–present The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+See the full license at:
+https://www.apache.org/licenses/LICENSE-2.0
+
+-------------------------------------------------------------------------------
+
+2. JFreeChart
+
+Website: https://www.jfree.org/jfreechart/
+Repository: https://github.com/jfree/jfreechart
+License: GNU Lesser General Public License, version 2.1 or later (LGPL-2.1+)
+
+Copyright (C) 2000–present, Object Refinery Limited and Contributors
+
+This product includes software developed by
+Object Refinery Limited and the JFreeChart community.
+
+See the full license at:
+https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+-------------------------------------------------------------------------------
+
+This NOTICE file is provided for informational purposes only
+and does not modify the licenses under which the respective software is distributed.
