@@ -62,7 +62,7 @@ public class Calculator {
     }
 
     public void calculateMortgage(boolean considerSavings) {
-        
+
         // calculating another one time without savings
         // by early repayments to show the savings by them
         if (considerSavings) {
@@ -152,22 +152,26 @@ public class Calculator {
         }
 
         BigDecimal repaymentsAmount = BigDecimal.ZERO;
-        System.out.println("Calculation er: " + currentPeriod);
         for (EarlyRepayment repayment : repayments) {
             BigDecimal sumToPayInPeriod = BigDecimal.valueOf(Math.min(
                     remainingDebt.doubleValue(),
                     repayment.getAmount().doubleValue()));
-            System.out.println("sumToPayInPeriod: " + sumToPayInPeriod);
             repaymentsAmount = repaymentsAmount.add(sumToPayInPeriod);
 
             switch (repayment.getStrategy()) {
                 case PAY_REDUCTION:
                     remainingDebt = remainingDebt.subtract(sumToPayInPeriod);
                     monthlyPayment = calculateAnnuityPayment(remainingDebt, monthsNumber);
-                    System.out.println("remainingDebt: " + remainingDebt + ", monthlyPayment: " + monthlyPayment);
                     break;
                 case TERM_REDUCTION:
-
+                    remainingDebt = remainingDebt.subtract(sumToPayInPeriod);
+                    double numerator = Math.log(1
+                            - (remainingDebt.multiply(monthInterestRate)
+                                    .divide(monthlyPayment, 4, RoundingMode.HALF_UP)).doubleValue());
+                    double denumerator = Math.log(1 + monthInterestRate.doubleValue());
+                    int months = (int) Math.ceil(-numerator/denumerator);
+//                    System.out.println("new months = " + months + ", old months = " + monthsNumber);
+                    monthsNumber = months;
                     break;
             }
 
@@ -262,5 +266,5 @@ public class Calculator {
     public BigDecimal getSavings() {
         return savings;
     }
-    
+
 }
