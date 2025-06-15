@@ -226,10 +226,9 @@ public class EarlyRepaymentDialog extends javax.swing.JDialog {
     }
 
     private void initMonthCombobox() {
-        Month currentMonth = LocalDate.now().getMonth();
         DefaultComboBoxModel<Month> model = new DefaultComboBoxModel<>(Month.values());
         monthComboBox.setModel(model);
-        monthComboBox.setSelectedItem(currentMonth);
+        monthComboBox.setSelectedItem(LocalDate.now().plusMonths(1L).getMonth());
 
     }
 
