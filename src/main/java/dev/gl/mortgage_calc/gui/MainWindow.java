@@ -10,7 +10,9 @@ import dev.gl.mortgage_calc.models.Calculator;
 import dev.gl.mortgage_calc.models.EarlyRepayment;
 import dev.gl.mortgage_calc.utils.DoubleRangeDocumentFilter;
 import dev.gl.mortgage_calc.utils.IntegerRangeDocumentFilter;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
@@ -29,6 +31,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -510,11 +518,35 @@ public class MainWindow extends javax.swing.JFrame {
         dataset.addValue(calculator.getSavings().setScale(2, RoundingMode.HALF_UP).doubleValue(), "parameters", "Savings");
         
         JFreeChart chart = ChartFactory.createBarChart("Results", "Parameters", "Funds", dataset);
+        
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        
+        renderer.setSeriesPaint(0, new Color(0, 102, 204));
+        renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", new DecimalFormat("###,###")));
+        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setDefaultItemLabelFont(new Font("Arial", Font.PLAIN, 14));
+        renderer.setDefaultPositiveItemLabelPosition(
+                new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, 
+                        TextAnchor.BOTTOM_CENTER, 
+                        TextAnchor.CENTER, 
+                        0.0));
+        
+        double max = getMaxValue();
+        plot.getRangeAxis().setUpperBound(max + (max * 0.2));
+        
+        
         BufferedImage bufferedImage = chart.createBufferedImage(600, 400);
         JLabel chartLabel = new JLabel(new ImageIcon(bufferedImage));
         chartsPanel.add(chartLabel);
         chartsPanel.revalidate();
         chartsPanel.repaint();
+    }
+
+    private double getMaxValue() {
+        double max = Math.max(calculator.getLoanAmount().doubleValue(), calculator.getTotalInterestPaid().doubleValue());
+        max = Math.max(max, calculator.getSavings().doubleValue());
+        return max;
     }
 
 }
