@@ -24,7 +24,7 @@ public class CalculateButtonListener implements ActionListener {
         }
         
         Calculator calculator = mw.createCalculator();
-        calculator.calculateMortgage();
+        calculator.calculateMortgage(true);
         mw.showOutput();
     }
 

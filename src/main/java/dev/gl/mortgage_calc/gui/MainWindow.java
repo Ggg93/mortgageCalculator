@@ -74,7 +74,7 @@ public class MainWindow extends javax.swing.JFrame {
         loanAmountTextField = new javax.swing.JFormattedTextField();
         jPanel13 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        monthlyPaymentTextField = new javax.swing.JFormattedTextField();
+        savingsTextField = new javax.swing.JFormattedTextField();
         jPanel14 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         totalInterestPaidTextField = new javax.swing.JFormattedTextField();
@@ -195,14 +195,14 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Monthly Payment: ");
+        jLabel6.setText("Savings: ");
         jPanel13.add(jLabel6);
 
-        monthlyPaymentTextField.setEditable(false);
-        monthlyPaymentTextField.setColumns(9);
-        monthlyPaymentTextField.setText("0");
-        monthlyPaymentTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel13.add(monthlyPaymentTextField);
+        savingsTextField.setEditable(false);
+        savingsTextField.setColumns(9);
+        savingsTextField.setText("0");
+        savingsTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel13.add(savingsTextField);
 
         mainOutputPanel.add(jPanel13);
 
@@ -350,8 +350,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JPanel mainOutputPanel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JFormattedTextField monthlyPaymentTextField;
     private javax.swing.JButton openPaymentScheduleButton;
+    private javax.swing.JFormattedTextField savingsTextField;
     private javax.swing.JFormattedTextField totalInterestPaidTextField;
     private javax.swing.JPanel viewportPanel;
     // End of variables declaration//GEN-END:variables
@@ -442,7 +442,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     public void showOutput() {
         loanAmountTextField.setText(calculator.getLoanAmount().setScale(2, RoundingMode.HALF_UP).toString());
-        monthlyPaymentTextField.setText(calculator.getMonthlyPayment().setScale(2, RoundingMode.HALF_UP).toString());
+        savingsTextField.setText(calculator.getSavings().setScale(2, RoundingMode.HALF_UP).toString());
         totalInterestPaidTextField.setText(calculator.getTotalInterestPaid().setScale(2, RoundingMode.HALF_UP).toString());
         loadPayoffDateTextField.setText(calculator.getPayOffDate().format(DateTimeFormatter.ofPattern("yyyy-MM")));
         setOpenPaymentScheduleButtonEnabled(true);
@@ -461,7 +461,7 @@ public class MainWindow extends javax.swing.JFrame {
         homeValueTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         downPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         loanAmountTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
-        monthlyPaymentTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
+        savingsTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
         totalInterestPaidTextField.setFormatterFactory(new DefaultFormatterFactory(createNumberFormatter(decimalFormat)));
     }
 

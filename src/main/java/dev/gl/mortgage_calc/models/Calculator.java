@@ -28,6 +28,7 @@ public class Calculator {
     // output
     private BigDecimal loanAmount;
     private BigDecimal monthlyPayment;
+    private BigDecimal savings;
     private BigDecimal totalInterestPaid;
     private LocalDate payOffDate;
     private List<MonthData> monthsData;
@@ -57,10 +58,15 @@ public class Calculator {
         this.monthsData = new ArrayList<>();
         payOffDate = LocalDate.now().withDayOfMonth(1).plusMonths(1);
         totalInterestPaid = BigDecimal.ZERO;
-        System.out.println("repayments = " + earlyRepayments.size());
+        savings = BigDecimal.ZERO;
     }
 
-    public void calculateMortgage() {
+    public void calculateMortgage(boolean considerSavings) {
+        if (considerSavings) {
+            Calculator calcWithoutSavings = new Calculator(homeValue, downPayment, interestRate, loanTerm, new ArrayList<>());
+            calcWithoutSavings.calculateMortgage(false);
+            savings = calcWithoutSavings.getTotalInterestPaid();
+        }
         loanAmount = calculateLoanAmount();
         remainingDebt = loanAmount;
 
@@ -68,6 +74,7 @@ public class Calculator {
         monthsNumber = calculateMonthsNumber();
         monthlyPayment = calculateAnnuityPayment(loanAmount, monthsNumber);
         calculateMonthsData();
+        savings = savings.subtract(totalInterestPaid);
     }
 
     private BigDecimal calculateLoanAmount() {
@@ -145,11 +152,11 @@ public class Calculator {
         System.out.println("Calculation er: " + currentPeriod);
         for (EarlyRepayment repayment : repayments) {
             BigDecimal sumToPayInPeriod = BigDecimal.valueOf(Math.min(
-                                    remainingDebt.doubleValue(),
-                                    repayment.getAmount().doubleValue()));
+                    remainingDebt.doubleValue(),
+                    repayment.getAmount().doubleValue()));
             System.out.println("sumToPayInPeriod: " + sumToPayInPeriod);
             repaymentsAmount = repaymentsAmount.add(sumToPayInPeriod);
-            
+
             switch (repayment.getStrategy()) {
                 case PAY_REDUCTION:
                     remainingDebt = remainingDebt.subtract(sumToPayInPeriod);
@@ -249,4 +256,8 @@ public class Calculator {
         return map;
     }
 
+    public BigDecimal getSavings() {
+        return savings;
+    }
+    
 }
